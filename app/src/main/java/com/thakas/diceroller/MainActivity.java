@@ -28,9 +28,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private  void display(int rollNumber){
-        ImageView diceImage = findViewById(R.id.imageView);
-        TextView mResultText = findViewById(R.id.result_text);
+    private  void display(int rollNumber, ImageView diceImage, TextView mResultText ){
         switch (rollNumber){
             case 1:
                 diceImage.setImageResource(R.drawable.dice_1);
@@ -68,15 +66,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void roll() {
+        int numberOfDice = 6;
         DiceCup diceCup = new DiceCup();
-        diceCup.setDice(6);
+        diceCup.setDice(numberOfDice);
 
         ArrayList<Integer> topList = diceCup.getOnTops();
 
-//        int rollNumber = topList.get(0);
-        for(int i : topList){
-            display(i);
+
+        // i is the index of the dice in dice cup
+        for(int i = 0; i<numberOfDice; i++){
+            int top = diceCup.getOnTops().get(i);
+            ImageView diceImage;
+            TextView mResultText;
+
+            switch (i){
+                case 0:
+                    diceImage = findViewById(R.id.imageView0);
+                    mResultText = findViewById(R.id.result_text0);
+                    display(top, diceImage, mResultText);
+                    break;
+                case 1:
+                    diceImage = findViewById(R.id.imageView1);
+                    mResultText = findViewById(R.id.result_text1);
+                    display(top, diceImage, mResultText);
+                    break;
+                case 2:
+                    diceImage = findViewById(R.id.imageView2);
+                    mResultText = findViewById(R.id.result_text2);
+                    display(top, diceImage, mResultText);
+                    break;
+                case 3:
+                    diceImage = findViewById(R.id.imageView3);
+                    mResultText = findViewById(R.id.result_text3);
+                    display(top, diceImage, mResultText);
+                    break;
+                case 4:
+                    diceImage = findViewById(R.id.imageView4);
+                    mResultText = findViewById(R.id.result_text4);
+                    display(top, diceImage, mResultText);
+                    break;
+                case 5:
+                    diceImage = findViewById(R.id.imageView5);
+                    mResultText = findViewById(R.id.result_text5);
+                    display(top, diceImage, mResultText);
+                    break;
+            }
         }
-//
+
     }
 }
