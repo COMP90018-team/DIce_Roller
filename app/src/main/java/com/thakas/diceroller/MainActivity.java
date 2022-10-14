@@ -1,7 +1,7 @@
 package com.thakas.diceroller;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.ArrayList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,12 +28,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void roll() {
-        int rollNummber = (int)(Math.random() * 6 + 1);
+    private  void display(int rollNumber){
         ImageView diceImage = findViewById(R.id.imageView);
         TextView mResultText = findViewById(R.id.result_text);
-
-        switch (rollNummber){
+        switch (rollNumber){
             case 1:
                 diceImage.setImageResource(R.drawable.dice_1);
                 mResultText.setText("One");
@@ -64,8 +62,21 @@ public class MainActivity extends AppCompatActivity {
                 mResultText.setText("Six");
                 Toast.makeText(this, "six", Toast.LENGTH_SHORT).show();
                 break;
-                default:
-                    diceImage.setImageResource(R.drawable.empty_dice);
+            default:
+                diceImage.setImageResource(R.drawable.empty_dice);
         }
+    }
+
+    private void roll() {
+        DiceCup diceCup = new DiceCup();
+        diceCup.setDice(6);
+
+        ArrayList<Integer> topList = diceCup.getOnTops();
+
+//        int rollNumber = topList.get(0);
+        for(int i : topList){
+            display(i);
+        }
+//
     }
 }
