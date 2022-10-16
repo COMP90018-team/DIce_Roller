@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class DiceGameActivity extends AppCompatActivity {
-    String selectParameter;
 
+    String selectParameter;
+    Map<String, Integer> currentResultMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class DiceGameActivity extends AppCompatActivity {
         TextView showNumDices = (TextView) findViewById(R.id.text_num_dice);
         selectParameter = getIntent().getStringExtra("selectParameter");
         showNumDices.setText("Playing with " + selectParameter + " Dices");
-        rollDice();
+        currentResultMap = rollDice();
 
         //TextView showContent = (TextView) findViewById(R.id.dicecup_img);
         ImageView diceCupImg = findViewById(R.id.imageDiceCup);
@@ -35,6 +36,7 @@ public class DiceGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 diceCupImg.setAlpha(0);
+                displayStat(currentResultMap);
             }
         });
 
@@ -43,8 +45,9 @@ public class DiceGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // showContent.setText(R.string.test_text_3);
+                hideTextView();
                 diceCupImg.setAlpha(255);
-                rollDice();
+                currentResultMap = rollDice();
             }
         });
 
@@ -53,6 +56,7 @@ public class DiceGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // showContent.setText(R.string.test_text_3);
+                hideTextView();
                 diceCupImg.setAlpha(255);
             }
         });
@@ -62,6 +66,22 @@ public class DiceGameActivity extends AppCompatActivity {
             finish();
         });
     }
+
+    private void hideTextView(){
+        TextView t0 = findViewById(R.id.result_text0);
+        t0.setVisibility(View.INVISIBLE);
+        TextView t1 = findViewById(R.id.result_text1);
+        t1.setVisibility(View.INVISIBLE);
+        TextView t2 = findViewById(R.id.result_text2);
+        t2.setVisibility(View.INVISIBLE);
+        TextView t3 = findViewById(R.id.result_text3);
+        t3.setVisibility(View.INVISIBLE);
+        TextView t4 = findViewById(R.id.result_text4);
+        t4.setVisibility(View.INVISIBLE);
+        TextView t5 = findViewById(R.id.result_text5);
+        t5.setVisibility(View.INVISIBLE);
+    }
+
     private  void display(int rollNumber, ImageView diceImage){
         switch (rollNumber){
             case 1:
@@ -100,6 +120,7 @@ public class DiceGameActivity extends AppCompatActivity {
     }
     private void displaySubStat(Integer id, String s, Map<String, Integer> map){
         TextView textVSub = findViewById(id);
+        textVSub.setVisibility(View.VISIBLE);
         textVSub.setText(s + ": " + map.get(s));
         if (map.get(s) == 0){
             textVSub.setTextColor(this.getResources().getColor(R.color.cream_100));
@@ -118,7 +139,7 @@ public class DiceGameActivity extends AppCompatActivity {
         displaySubStat(R.id.result_text5, "Six", map);
     }
 
-    private void rollDice() {
+    private Map<String, Integer> rollDice() {
         int numberOfDice = Integer.valueOf(selectParameter);
         DiceCup diceCup = new DiceCup();
         diceCup.setDice(numberOfDice);
@@ -165,6 +186,7 @@ public class DiceGameActivity extends AppCompatActivity {
                     break;
             }
         }
-        displayStat(resultMap);
+//        displayStat(resultMap);
+        return resultMap;
     }
 }
