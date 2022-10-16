@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cream_000">#F5E0CE99</color>
-    <color name="cream_100">#E0CE99</color>
-    <color name="cream_200">#B0916728</color>
+    <color name="cream_100">#66916728</color>
+    <color name="cream_200">#C6916728</color>
     <color name="cream_300">#FF916728</color>
 </resources>

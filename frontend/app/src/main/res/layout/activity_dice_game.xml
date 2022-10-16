@@ -207,10 +207,10 @@
             android:id="@+id/open_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="18dp"
+            android:layout_margin="24dp"
             android:fontFamily="@font/komikax"
             android:text="@string/open_button"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
@@ -219,26 +219,13 @@
             android:id="@+id/shake_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="18dp"
+            android:layout_margin="24dp"
             android:fontFamily="@font/komikax"
             android:text="@string/shake_button"
-            android:textSize="22sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
-
-        <Button
-            android:id="@+id/cover_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="18dp"
-            android:fontFamily="@font/komikax"
-            android:text="@string/cover_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
 
     </LinearLayout>
 

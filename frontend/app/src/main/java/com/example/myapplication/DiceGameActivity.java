@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.graphics.Typeface;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
@@ -16,9 +17,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class DiceGameActivity extends AppCompatActivity {
-
     String selectParameter;
     Map<String, Integer> currentResultMap;
+    Boolean is_cover = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +37,19 @@ public class DiceGameActivity extends AppCompatActivity {
         btnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                diceCupImg.setAlpha(0);
-                displayStat(currentResultMap);
+                if (is_cover == true) {
+                    displayStat(currentResultMap);
+                    diceCupImg.setAlpha(0);
+                    btnOpen.setText(R.string.cover_button);
+                    is_cover = false;
+                }
+
+                else {
+                    hideTextView();
+                    diceCupImg.setAlpha(255);
+                    btnOpen.setText(R.string.open_button);
+                    is_cover = true;
+                }
             }
         });
 
@@ -45,19 +58,11 @@ public class DiceGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // showContent.setText(R.string.test_text_3);
+                is_cover = true;
                 hideTextView();
                 diceCupImg.setAlpha(255);
+                btnOpen.setText(R.string.open_button);
                 currentResultMap = rollDice();
-            }
-        });
-
-        Button btnCover = (Button) findViewById(R.id.cover_btn);
-        btnCover.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                // showContent.setText(R.string.test_text_3);
-                hideTextView();
-                diceCupImg.setAlpha(255);
             }
         });
 
@@ -124,9 +129,11 @@ public class DiceGameActivity extends AppCompatActivity {
         textVSub.setText(s + ": " + map.get(s));
         if (map.get(s) == 0){
             textVSub.setTextColor(this.getResources().getColor(R.color.cream_100));
+            textVSub.setTypeface(Typeface.create(textVSub.getTypeface(), Typeface.NORMAL));
         }
         if (map.get(s) != 0){
             textVSub.setTextColor(this.getResources().getColor(R.color.cream_200));
+            textVSub.setTypeface(Typeface.create(textVSub.getTypeface(), Typeface.BOLD));
         }
     }
 
@@ -186,7 +193,7 @@ public class DiceGameActivity extends AppCompatActivity {
                     break;
             }
         }
-//        displayStat(resultMap);
+        // displayStat(resultMap);
         return resultMap;
     }
 }
