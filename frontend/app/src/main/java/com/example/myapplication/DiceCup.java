@@ -4,6 +4,7 @@ package com.example.myapplication;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class DiceCup {
 
@@ -45,10 +46,33 @@ public class DiceCup {
 
     // Return the top results of all dice
     public ArrayList<Integer> getOnTops(){
+        int addEmptySpace = 12-this.numberOfDice;
+        int countEmpty = 0;
+        int countVaild = 0;
         ArrayList<Integer> topList = new ArrayList<Integer>();
-        for(int i=0; i<this.numberOfDice; i++){
-            Dice temp = cup.get(i);
-            topList.add(temp.getOnTop());
+        for(int i=0; i<12; i++){
+            if ((countEmpty < addEmptySpace) && (countVaild < this.numberOfDice)){
+                Random rand = new Random();
+                float f = rand.nextFloat();
+                if (f <= ((float)addEmptySpace/12)){
+                    Dice temp = cup.get(i-countEmpty);
+                    topList.add(temp.getOnTop());
+                    countVaild ++;
+                }
+                else{
+                    topList.add(0);
+                    countEmpty ++;
+                }
+            }
+            else if (countEmpty >= addEmptySpace){
+                Dice temp = cup.get(i-countEmpty);
+                topList.add(temp.getOnTop());
+                countVaild ++;
+            }
+            else {
+                topList.add(0);
+                countEmpty ++;
+            }
         }
         return topList;
     }
@@ -64,6 +88,7 @@ public class DiceCup {
 
     public Map<String, Integer> getResultMap() {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
+        resultMap.put("Empty",0);
         resultMap.put("One",0);
         resultMap.put("Two",0);
         resultMap.put("Three",0);
@@ -72,9 +97,14 @@ public class DiceCup {
         resultMap.put("Six",0);
 
         ArrayList<Integer> resultList = this.getOnTops();
-        for(int i=0; i<this.numberOfDice; i++){
+        //System.out.print(resultList);
+
+        for(int i=0; i<12; i++){
             int top = resultList.get(i);
             switch(top){
+                case 0:
+                    resultMap.put("Empty", resultMap.containsKey("Empty") ? resultMap.get("Empty") + 1 : 1);
+                    break;
                 case 1:
                     resultMap.put("One", resultMap.containsKey("One") ? resultMap.get("One") + 1 : 1);
                     break;
@@ -97,6 +127,5 @@ public class DiceCup {
         }
         return resultMap;
     }
-
 }
 

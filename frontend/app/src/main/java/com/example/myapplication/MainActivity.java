@@ -3,7 +3,6 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Spinner spinner=(Spinner)findViewById(R.id.spinner_dicenum);//初始化控件
-        ArrayAdapter<String>adapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,numList);//建立Adapter并且绑定数据源
+        Spinner spinner = findViewById(R.id.spinner_dicenum);//初始化控件
+        ArrayAdapter<String>adapter= new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,numList);//建立Adapter并且绑定数据源
 //第一个参数表示在哪个Activity上显示，第二个参数是系统下拉框的样式，第三个参数是数组。
         spinner.setAdapter(adapter);//绑定Adapter到控件
         //监听spinner选中的参数并赋值，通过intent进行传参至下一个页面
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startButton = (Button) findViewById(R.id.start_button);
+        startButton = findViewById(R.id.start_button);
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

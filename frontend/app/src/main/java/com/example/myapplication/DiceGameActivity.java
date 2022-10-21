@@ -2,127 +2,123 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.graphics.Typeface;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 public class DiceGameActivity extends AppCompatActivity {
     String selectParameter;
     Map<String, Integer> currentResultMap;
     Boolean is_cover = true;
 
+    Integer[] matchImgList = {R.drawable.empty_dice,R.drawable.dice_1,R.drawable.dice_2,
+            R.drawable.dice_3,R.drawable.dice_4,R.drawable.dice_5,R.drawable.dice_6};
+
+    Integer[] TextBlkList = {R.id.result_text0,R.id.result_text1,R.id.result_text2,
+            R.id.result_text3,R.id.result_text4,R.id.result_text5};
+
+    String [] TextStrList = {"One", "Two", "Three", "Four", "Five", "Six"};
+
+    Integer[] imgBlkList = {R.id.imageView0,R.id.imageView1,R.id.imageView2,R.id.imageView3,
+            R.id.imageView4,R.id.imageView5,R.id.imageView6,R.id.imageView7,R.id.imageView8,
+            R.id.imageView9,R.id.imageView10,R.id.imageView11};
+
+    ArrayList<Integer> imgBlkStartList = new ArrayList<>();
+    ArrayList<Integer> imgBlkTopList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dice_game);
 
-        TextView showNumDices = (TextView) findViewById(R.id.text_num_dice);
+        for (int imgBlk: imgBlkList){
+            MarginLayoutParams imgBlkPara = (MarginLayoutParams) findViewById(imgBlk).getLayoutParams();
+            int imgBlkStart = imgBlkPara.leftMargin;
+            imgBlkStartList.add(imgBlkStart);
+            int imgBlkTop = imgBlkPara.topMargin;
+            imgBlkTopList.add(imgBlkTop);
+        }
+
+        TextView showNumDices = findViewById(R.id.text_num_dice);
         selectParameter = getIntent().getStringExtra("selectParameter");
         showNumDices.setText("Playing with " + selectParameter + " Dices");
         currentResultMap = rollDice();
 
-        //TextView showContent = (TextView) findViewById(R.id.dicecup_img);
         ImageView diceCupImg = findViewById(R.id.imageDiceCup);
-        Button btnOpen = (Button) findViewById(R.id.open_btn);
+        Button btnOpen = findViewById(R.id.open_btn);
         btnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (is_cover == true) {
+                if (is_cover) {
                     displayStat(currentResultMap);
-                    diceCupImg.setAlpha(0);
+                    diceCupImg.setImageAlpha(0);
                     btnOpen.setText(R.string.cover_button);
                     is_cover = false;
                 }
 
                 else {
                     hideTextView();
-                    diceCupImg.setAlpha(255);
+                    diceCupImg.setImageAlpha(255);
                     btnOpen.setText(R.string.open_button);
                     is_cover = true;
                 }
             }
         });
 
-        Button btnShake = (Button) findViewById(R.id.shake_btn);
+        Button btnShake = findViewById(R.id.shake_btn);
         btnShake.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 // showContent.setText(R.string.test_text_3);
                 is_cover = true;
                 hideTextView();
-                diceCupImg.setAlpha(255);
+                diceCupImg.setImageAlpha(255);
                 btnOpen.setText(R.string.open_button);
                 currentResultMap = rollDice();
             }
         });
 
-        Button btnBack = (Button) findViewById(R.id.btn_back);
-        btnBack.setOnClickListener(v -> {
-            finish();
-        });
+        Button btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v ->
+            finish()
+        );
     }
 
     private void hideTextView(){
-        TextView t0 = findViewById(R.id.result_text0);
-        t0.setVisibility(View.INVISIBLE);
-        TextView t1 = findViewById(R.id.result_text1);
-        t1.setVisibility(View.INVISIBLE);
-        TextView t2 = findViewById(R.id.result_text2);
-        t2.setVisibility(View.INVISIBLE);
-        TextView t3 = findViewById(R.id.result_text3);
-        t3.setVisibility(View.INVISIBLE);
-        TextView t4 = findViewById(R.id.result_text4);
-        t4.setVisibility(View.INVISIBLE);
-        TextView t5 = findViewById(R.id.result_text5);
-        t5.setVisibility(View.INVISIBLE);
-    }
-
-    private  void display(int rollNumber, ImageView diceImage){
-        switch (rollNumber){
-            case 1:
-                diceImage.setImageResource(R.drawable.dice_1);
-                //mResultText.setText("One");
-                //Toast.makeText(this, "one", Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                diceImage.setImageResource(R.drawable.dice_2);
-                //mResultText.setText("Two");
-                //Toast.makeText(this, "two", Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
-                diceImage.setImageResource(R.drawable.dice_3);
-                //mResultText.setText("Three");
-                //Toast.makeText(this, "three", Toast.LENGTH_SHORT).show();
-                break;
-            case 4:
-                diceImage.setImageResource(R.drawable.dice_4);
-                //mResultText.setText("Four");
-                //Toast.makeText(this, "four", Toast.LENGTH_SHORT).show();
-                break;
-            case 5:
-                diceImage.setImageResource(R.drawable.dice_5);
-                //mResultText.setText("Five");
-                //Toast.makeText(this, "five", Toast.LENGTH_SHORT).show();
-                break;
-            case 6:
-                diceImage.setImageResource(R.drawable.dice_6);
-                //mResultText.setText("Six");
-                //Toast.makeText(this, "six", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                diceImage.setImageResource(R.drawable.empty_dice);
+        for (int textBlk : TextBlkList) {
+            TextView textBlkV = findViewById(textBlk);
+            textBlkV.setVisibility(View.INVISIBLE);
         }
     }
+
+    private  void display(int rollNumber, ImageView diceImage, int imgIndex){
+        LayoutParams standard_params = findViewById(R.id.imageBase0).getLayoutParams();
+        MarginLayoutParams params = (MarginLayoutParams)diceImage.getLayoutParams();
+        if (rollNumber > 0){
+            int max_bound = 5;
+            int min_bound = -5;
+            Random rand = new Random();
+            int size_change = rand.nextInt((max_bound - min_bound) + 1) + min_bound;
+            int horizontal_change = rand.nextInt((max_bound - min_bound) + 1) + min_bound;
+            int vertical_change = rand.nextInt((max_bound - min_bound) + 1) + min_bound;
+            params.width = standard_params.width + (size_change*6);
+            params.height = standard_params.height + (size_change*4);
+            params.leftMargin = imgBlkStartList.get(imgIndex) + (horizontal_change);
+            params.topMargin = imgBlkTopList.get(imgIndex) + (vertical_change);
+            diceImage.requestLayout();
+        }
+        diceImage.setImageResource(matchImgList[rollNumber]);
+    }
+
     private void displaySubStat(Integer id, String s, Map<String, Integer> map){
         TextView textVSub = findViewById(id);
         textVSub.setVisibility(View.VISIBLE);
@@ -138,12 +134,9 @@ public class DiceGameActivity extends AppCompatActivity {
     }
 
     private void displayStat(Map<String, Integer> map){
-        displaySubStat(R.id.result_text0, "One", map);
-        displaySubStat(R.id.result_text1, "Two", map);
-        displaySubStat(R.id.result_text2, "Three", map);
-        displaySubStat(R.id.result_text3, "Four", map);
-        displaySubStat(R.id.result_text4, "Five", map);
-        displaySubStat(R.id.result_text5, "Six", map);
+        for (int i = 0; i < TextStrList.length; i++){
+            displaySubStat(TextBlkList[i], TextStrList[i], map);
+        }
     }
 
     private Map<String, Integer> rollDice() {
@@ -155,43 +148,11 @@ public class DiceGameActivity extends AppCompatActivity {
         Map<String, Integer> resultMap = diceCup.getResultMap();
 
         // i is the index of the dice in dice cup
-        for(int i = 0; i<numberOfDice; i++){
-            int top = diceCup.getOnTops().get(i);
+        for(int i = 0; i<12; i++){
+            int top = topList.get(i);
             ImageView diceImage;
-            TextView mResultText;
-
-            switch (i){
-                case 0:
-                    diceImage = findViewById(R.id.imageView0);
-                    //mResultText = findViewById(R.id.result_text0);
-                    display(top, diceImage);
-                    break;
-                case 1:
-                    diceImage = findViewById(R.id.imageView1);
-                    //mResultText = findViewById(R.id.result_text1);
-                    display(top, diceImage);
-                    break;
-                case 2:
-                    diceImage = findViewById(R.id.imageView2);
-                    //mResultText = findViewById(R.id.result_text2);
-                    display(top, diceImage);
-                    break;
-                case 3:
-                    diceImage = findViewById(R.id.imageView3);
-                    //mResultText = findViewById(R.id.result_text3);
-                    display(top, diceImage);
-                    break;
-                case 4:
-                    diceImage = findViewById(R.id.imageView4);
-                    //mResultText = findViewById(R.id.result_text4);
-                    display(top, diceImage);
-                    break;
-                case 5:
-                    diceImage = findViewById(R.id.imageView5);
-                    //mResultText = findViewById(R.id.result_text5);
-                    display(top, diceImage);
-                    break;
-            }
+            diceImage = findViewById(imgBlkList[i]);
+            display(top, diceImage, i);
         }
         // displayStat(resultMap);
         return resultMap;
